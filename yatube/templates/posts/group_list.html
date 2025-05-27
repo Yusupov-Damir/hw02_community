@@ -8,7 +8,7 @@
   <!-- класс py-5 создает отступы сверху и снизу блока -->
   <div class="container py-5">
     <p>
-      Название группы: {{group}}
+      Название группы: {{ group }}
     </p>
     {% for post in page_obj %}
       <article>
@@ -24,6 +24,12 @@
           {{ post.text }}
         </p>
       </article>
+
+    <div class="d-flex justify-content-between w-100">
+      <a href="{% url 'posts:post_detail' post_id=post.pk %}">перейти в пост</a>
+      <a href="{% url 'posts:profile' username=post.author %}">все посты пользователя</a>
+    </div>
+
       {% if not forloop.last %}<hr>{% endif %}
     {% endfor %}
     <!-- под последним постом нет линии -->

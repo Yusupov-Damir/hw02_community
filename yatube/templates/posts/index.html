@@ -15,9 +15,17 @@
       </li>
     </ul>
     <p>{{ post.text }}</p>
-    {% if post.group %}
-      <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
-    {% endif %}
+
+    <div class="d-flex justify-content-between" style="width: 50%;">
+      <a href="{% url 'posts:post_detail' post_id=post.pk %}">перейти в пост</a>
+
+      <a href="{% url 'posts:profile' username=post.author %}">все посты пользователя</a>
+
+      {% if post.group %}
+        <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+      {% endif %}
+    </div>
+
     {% if not forloop.last %}<hr>{% endif %}
   {% endfor %}
 

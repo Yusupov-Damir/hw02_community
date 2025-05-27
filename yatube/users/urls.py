@@ -1,13 +1,12 @@
-from tempfile import template
-
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView, \
     PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from  django.contrib.auth.decorators import login_required
 from django.urls import path
+
 from . import views
 
-
 app_name = 'users'
+
 
 urlpatterns = [
     path('signup/', views.SignUp.as_view(), name='signup'),
@@ -22,17 +21,17 @@ urlpatterns = [
         name='login'
     ),
     path(
-        'password_change/',
-        PasswordChangeView.as_view(template_name='users/password_change_form.html'),
+        'password_change/',   # Защита маршрута с помощью декоратора login_required (хотя итак защищен).
+        login_required(PasswordChangeView.as_view(template_name='users/password_change_form.html')),
         name='password_change'
     ),
-    path('password_change/done/',
+    path('password_change/done/',  # Этот маршрут тоже защищен где-то системно.
          PasswordChangeDoneView.as_view(template_name='users/password_change_done.html'),
          name='password_change_done'
     ),
     path(
-        'password_reset/',  # Защита маршрута с помощью декоратора login_required.
-        login_required(PasswordResetView.as_view(template_name='users/password_reset_form.html')),
+        'password_reset/',
+        PasswordResetView.as_view(template_name='users/password_reset_form.html'),
         name='password_reset'
     ),
     path(

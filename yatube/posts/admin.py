@@ -3,6 +3,8 @@ from django.contrib import admin
 from .models import Post
 from  .models import Group
 
+
+@admin.register(Post)  # Регистрирую и настраиваю отображение модели постов.
 class PostAdmin(admin.ModelAdmin):
     list_display = ('pk', 'text', 'pub_date', 'author', 'group')
     list_editable = ('group',)
@@ -10,7 +12,11 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ('pub_date',)
     empty_value_display = '-пусто-'
 
-admin.site.register(Post, PostAdmin)
+
+@admin.register(Group)  # Регистрирую мою модель групп.
+class GroupAdmin(admin.ModelAdmin):
+    pass
 
 
-admin.site.register(Group)
+from django.contrib.auth.models import Group  # Импортирую встроенную модель групп, иначе ее не скрыть.
+admin.site.unregister(Group)  # Принудительно отключаю отображение встроенной модели групп.
