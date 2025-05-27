@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{user}}
+{% endblock %}
+
+{% block content %}
+      <!-- класс py-5 создает отступы сверху и снизу блока -->
+      <div class="container py-5">
+        <h1>Все посты пользователя {{ user }} </h1>
+        <h3>Всего постов: {{ posts_count }} </h3>
+        <article>
+          <ul>
+            <li>
+              {{user}}
+              <a href="{% url 'posts:profile' username=user.username %}">последние записи</a>
+            </li>
+          {% for post in page_obj %}
+            <article>
+              <ul>
+                <li>
+                  Дата публикации: {{ post.pub_date|date:"d E Y" }}
+                </li>
+              </ul>
+              <p>
+                {{ post.text }}
+              </p>
+            </article>
+            {% if not forloop.last %} {% endif %}
+            <div class="d-flex justify-content-between w-100">
+              <a href="{% url 'posts:post_detail' post_id=post.pk %}">перейти в пост</a>
+
+              {% if post.group %}
+                <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+              {% endif %}
+            </div>
+          <hr>
+          {% endfor %}
+
+
+        {% include 'posts/includes/paginator.html' %}
+      </div>
+
+{% endblock %}
